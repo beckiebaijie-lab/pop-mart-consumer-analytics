@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POP MART | Consumer Analytics</title>
+<style>
+:root{color-scheme:light;--ink:#222329;--muted:#5f606a;--paper:#f8f6f2;--accent:#a62742;--line:#e3ddd6}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,sans-serif}
+main{max-width:1160px;margin:auto;padding:48px 24px 64px}header{max-width:760px;margin-bottom:32px}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1;letter-spacing:-.07em;margin:.25em 0}
+h2{font-size:1.7rem;letter-spacing:-.035em;margin:.15em 0}p{margin:.4em 0 1em;color:var(--muted)}
+.eyebrow{color:var(--accent);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:750}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 28px}a{color:#8b1933}nav a,select{background:white;border:1px solid var(--line);padding:8px 14px;border-radius:7px}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin:20px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:20px 0}
+.card{background:var(--paper);padding:16px;border-radius:9px;color:var(--muted);font-size:.88rem}
+.card strong{display:block;color:var(--ink);font-size:1.8rem;letter-spacing:-.04em}
+.bars{margin:20px 0}.bar-row{display:grid;grid-template-columns:64px 1fr 105px;gap:12px;align-items:center;margin:7px 0;font-variant-numeric:tabular-nums}
+.track{height:14px;background:#f1ede8;border-radius:4px;overflow:hidden}.fill{display:block;height:100%;background:var(--accent)}
+#retail-bars .fill{background:#236b64}.scroll{overflow:auto}table{border-collapse:collapse;font-size:.83rem;font-variant-numeric:tabular-nums;width:100%;white-space:nowrap}
+th,td{padding:8px;text-align:right;border-bottom:1px solid var(--line)}th:first-child{text-align:left}
+details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
+@media(max-width:480px){main{padding:28px 12px}section{padding:15px}.bar-row{grid-template-columns:58px 1fr 80px;gap:6px;font-size:.8rem}}
+</style>
+</head>
+<body><main>
+<header><span class="eyebrow">Independent portfolio case study</span>
+<h1>POP MART<br>Consumer Analytics</h1>
+<p>Reported company growth and a worked example of customer retention using a separate UK retailer’s transactions.</p></header>
+<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#retail">Retail proxy</a><a href="#cohorts">Cohorts</a></nav>
+<section id="company">
+<span class="eyebrow">Company filings · RMB</span><h2>POP MART group revenue</h2>
+<p>Annual consolidated revenue, FY2021–FY2025. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf">HKEX annual report</a></p>
+<div class="cards" id="company-cards"></div><div class="bars" id="company-bars"></div>
+</section>
+<section id="retail">
+<span class="eyebrow">UCI Online Retail · UK retailer · GBP</span><h2>Monthly trading and repeat purchase</h2>
+<p>December 2010–November 2011. Gross positive sales exclude cancellation lines and refunds. Monthly order totals include unidentified buyers.</p>
+<div class="cards" id="retail-cards"></div>
+<p>Purchase conversion is unavailable because the dataset contains no visitor or session denominator. The 30-day repeat rate uses identified purchasers with a full follow-up window.</p>
+<label for="metric">Monthly metric</label>
+<select id="metric"><option value="gross_gbp">Gross sales (£)</option><option value="orders">Orders</option><option value="aov_gbp">Average order value (£)</option><option value="mom">Gross sales MoM</option></select>
+<div class="bars" id="retail-bars" aria-live="polite"></div>
+<details><summary>Monthly metrics and customer ID coverage</summary><div class="scroll" id="monthly"></div></details>
+</section>
+<section id="cohorts">
+<span class="eyebrow">UCI Online Retail · identified buyers</span><h2>Monthly purchase retention</h2>
+<p>Cohorts start at first observed purchase. M1 shows the share buying again in the next calendar month. Darker cells indicate higher retention. A dash means the month falls outside the analysis window.</p>
+<label for="cohort">Cohort filter</label> <select id="cohort"><option value="">All cohorts</option></select>
+<div class="scroll" id="heatmap" aria-live="polite"></div>
+</section>
+<footer>Proxy data adapted from Daqing Chen, Online Retail (2015), <a href="https://doi.org/10.24432/C5BW33">UCI Machine Learning Repository</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></footer>
+</main>
+<script id="metrics" type="application/json">__METRICS__</script>
+<script>
+const data = JSON.parse(document.querySelector('#metrics').textContent);
+const byId = id => document.getElementById(id);
+const num = n => n.toLocaleString('en-GB', {maximumFractionDigits: 2});
+const pct = n => n === null ? '—' : (n * 100).toFixed(1) + '%';
+const gbp = n => n === null ? '—' : '£' + num(n);
+const cards = (id, items) => byId(id).innerHTML = items.map(([label, value]) =>
+  '<div class="card"><strong>' + value + '</strong>' + label + '</div>').join('');
+function bars(id, rows, format) {
+  const max = Math.max(1e-9, ...rows.map(([, value]) => Math.abs(value || 0)));
+  byId(id).innerHTML = rows.map(([label, value]) => '<div class="bar-row"><span>' + label +
+    '</span><span class="track" aria-hidden="true"><span class="fill" style="width:' +
+    (100 * Math.abs(value || 0) / max) + '%;background-color:' + (value < 0 ? '#a62742' : '') +
+    '"></span></span><span>' + format(value) + '</span></div>').join('');
+}
+function table(id, headers, rows) {
+  byId(id).innerHTML = '<table><thead><tr>' + headers.map(label => '<th scope="col">' + label +
+    '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+}
+const latest = data.financials[data.financials.length - 1];
+const rmb = n => '¥' + (n / 1000000).toFixed(2) + 'bn';
+cards('company-cards', [['FY2025 revenue', rmb(latest.revenue_rmb_thousands)], ['FY2025 YoY', '+' + pct(latest.yoy)]]);
+bars('company-bars', data.financials.map(row => [row.year, row.revenue_rmb_thousands]), rmb);
+const monthly = data.monthly;
+const sum = key => monthly.reduce((total, row) => total + row[key], 0);
+const repeat = data.repeat_30d[0];
+cards('retail-cards', [['Gross sales', gbp(sum('gross_gbp'))], ['Orders', num(sum('orders'))],
+  ['30-day repeat · ' + num(repeat.eligible_buyers) + ' eligible buyers', pct(repeat.rate)],
+  ['Orders with customer ID', pct(sum('identified_orders') / sum('orders'))]]);
+function drawRetail() {
+  const key = byId('metric').value;
+  bars('retail-bars', monthly.map(row => [row.month.slice(0, 7), row[key]]),
+    {gross_gbp: gbp, aov_gbp: gbp, orders: num, mom: pct}[key]);
+}
+byId('metric').addEventListener('change', drawRetail);
+drawRetail();
+table('monthly', ['Month', 'Gross sales', 'Orders', 'Identified buyers', 'AOV', 'MoM', 'Order ID coverage'],
+  monthly.map(row => '<tr><th scope="row">' + row.month.slice(0, 7) + '</th>' +
+    [gbp(row.gross_gbp), num(row.orders), num(row.buyers), gbp(row.aov_gbp), pct(row.mom),
+      pct(row.orders ? row.identified_orders / row.orders : null)].map(x => '<td>' + x + '</td>').join('') + '</tr>'));
+const groups = data.retention.filter(row => row.age === 0);
+const ages = Array.from({length: 12}, (_, i) => i);
+for (const row of groups) {
+  byId('cohort').add(new Option(row.cohort.slice(0, 7), row.cohort));
+}
+function drawHeatmap() {
+  const selected = byId('cohort').value;
+  table('heatmap', ['First purchase', 'Buyers', ...ages.map(age => 'M' + age)],
+    groups.filter(row => !selected || row.cohort === selected).map(row => {
+      const cells = ages.map(age => {
+        const cell = data.retention.find(item => item.cohort === row.cohort && item.age === age);
+        if (!cell) return '<td aria-label="Outside observation window">—</td>';
+        const lightness = 98 - 62 * cell.rate;
+        const color = cell.rate > .58 ? '#fff' : '#222329';
+        return '<td title="' + cell.active_buyers + ' / ' + cell.size + ' buyers" style="background:hsl(167 46% ' +
+          lightness + '%);color:' + color + '">' + pct(cell.rate) + '</td>';
+      });
+      return '<tr><th scope="row">' + row.cohort.slice(0, 7) + '</th><td>' + num(row.size) + '</td>' + cells.join('') + '</tr>';
+    }));
+}
+byId('cohort').addEventListener('change', drawHeatmap);
+drawHeatmap();
+</script>
+</body>
+</html>

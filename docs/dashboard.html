@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POP MART | Consumer Analytics</title>
+<style>
+:root{color-scheme:light;--ink:#222329;--muted:#5f606a;--paper:#f8f6f2;--accent:#a62742;--line:#e3ddd6}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,sans-serif}
+main{max-width:1160px;margin:auto;padding:48px 24px 64px}header{max-width:760px;margin-bottom:32px}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1;letter-spacing:-.07em;margin:.25em 0}
+h2{font-size:1.7rem;letter-spacing:-.035em;margin:.15em 0}p{margin:.4em 0 1em;color:var(--muted)}
+.eyebrow{color:var(--accent);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:750}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 28px}a{color:#8b1933}nav a,select{background:white;border:1px solid var(--line);padding:8px 14px;border-radius:7px}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin:20px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:20px 0}
+.card{background:var(--paper);padding:16px;border-radius:9px;color:var(--muted);font-size:.88rem}
+.card strong{display:block;color:var(--ink);font-size:1.8rem;letter-spacing:-.04em}
+.bars{margin:20px 0}.bar-row{display:grid;grid-template-columns:64px 1fr 105px;gap:12px;align-items:center;margin:7px 0;font-variant-numeric:tabular-nums}
+.track{height:14px;background:#f1ede8;border-radius:4px;overflow:hidden}.fill{display:block;height:100%;background:var(--accent)}
+#retail-bars .fill{background:#236b64}.scroll{overflow:auto}table{border-collapse:collapse;font-size:.83rem;font-variant-numeric:tabular-nums;width:100%;white-space:nowrap}
+th,td{padding:8px;text-align:right;border-bottom:1px solid var(--line)}th:first-child{text-align:left}
+details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
+@media(max-width:480px){main{padding:28px 12px}section{padding:15px}.bar-row{grid-template-columns:58px 1fr 80px;gap:6px;font-size:.8rem}}
+</style>
+</head>
+<body><main>
+<header><span class="eyebrow">Independent portfolio case study</span>
+<h1>POP MART<br>Consumer Analytics</h1>
+<p>Reported company growth and a worked example of customer retention using a separate UK retailer’s transactions.</p></header>
+<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#retail">Retail proxy</a><a href="#cohorts">Cohorts</a></nav>
+<section id="company">
+<span class="eyebrow">Company filings · RMB</span><h2>POP MART group revenue</h2>
+<p>Annual consolidated revenue, FY2021–FY2025. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf">HKEX annual report</a></p>
+<div class="cards" id="company-cards"></div><div class="bars" id="company-bars"></div>
+</section>
+<section id="retail">
+<span class="eyebrow">UCI Online Retail · UK retailer · GBP</span><h2>Monthly trading and repeat purchase</h2>
+<p>December 2010–November 2011. Gross positive sales exclude cancellation lines and refunds. Monthly order totals include unidentified buyers.</p>
+<div class="cards" id="retail-cards"></div>
+<p>Purchase conversion is unavailable because the dataset contains no visitor or session denominator. The 30-day repeat rate uses identified purchasers with a full follow-up window.</p>
+<label for="metric">Monthly metric</label>
+<select id="metric"><option value="gross_gbp">Gross sales (£)</option><option value="orders">Orders</option><option value="aov_gbp">Average order value (£)</option><option value="mom">Gross sales MoM</option></select>
+<div class="bars" id="retail-bars" aria-live="polite"></div>
+<details><summary>Monthly metrics and customer ID coverage</summary><div class="scroll" id="monthly"></div></details>
+</section>
+<section id="cohorts">
+<span class="eyebrow">UCI Online Retail · identified buyers</span><h2>Monthly purchase retention</h2>
+<p>Cohorts start at first observed purchase. M1 shows the share buying again in the next calendar month. Darker cells indicate higher retention. A dash means the month falls outside the analysis window.</p>
+<label for="cohort">Cohort filter</label> <select id="cohort"><option value="">All cohorts</option></select>
+<div class="scroll" id="heatmap" aria-live="polite"></div>
+</section>
+<footer>Proxy data adapted from Daqing Chen, Online Retail (2015), <a href="https://doi.org/10.24432/C5BW33">UCI Machine Learning Repository</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></footer>
+</main>
+<script id="metrics" type="application/json">{"monthly": [{"month": "2010-12-01", "gross_gbp": 823746.14, "orders": 1559, "buyers": 885, "identified_orders": 1400, "identified_gross_gbp": 572713.89, "aov_gbp": 528.38, "mom": null}, {"month": "2011-01-01", "gross_gbp": 691364.56, "orders": 1086, "buyers": 741, "identified_orders": 987, "identified_gross_gbp": 569445.04, "aov_gbp": 636.62, "mom": -0.160707}, {"month": "2011-02-01", "gross_gbp": 523631.89, "orders": 1100, "buyers": 758, "identified_orders": 997, "identified_gross_gbp": 447137.35, "aov_gbp": 476.03, "mom": -0.242611}, {"month": "2011-03-01", "gross_gbp": 717639.36, "orders": 1454, "buyers": 974, "identified_orders": 1321, "identified_gross_gbp": 595500.76, "aov_gbp": 493.56, "mom": 0.370504}, {"month": "2011-04-01", "gross_gbp": 537808.62, "orders": 1246, "buyers": 856, "identified_orders": 1149, "identified_gross_gbp": 469200.36, "aov_gbp": 431.63, "mom": -0.250587}, {"month": "2011-05-01", "gross_gbp": 770536.02, "orders": 1681, "buyers": 1056, "identified_orders": 1555, "identified_gross_gbp": 678594.56, "aov_gbp": 458.38, "mom": 0.432733}, {"month": "2011-06-01", "gross_gbp": 761739.9, "orders": 1533, "buyers": 991, "identified_orders": 1393, "identified_gross_gbp": 661213.69, "aov_gbp": 496.89, "mom": -0.011416}, {"month": "2011-07-01", "gross_gbp": 719221.19, "orders": 1475, "buyers": 949, "identified_orders": 1331, "identified_gross_gbp": 600091.01, "aov_gbp": 487.61, "mom": -0.055818}, {"month": "2011-08-01", "gross_gbp": 759138.38, "orders": 1361, "buyers": 935, "identified_orders": 1280, "identified_gross_gbp": 645343.9, "aov_gbp": 557.78, "mom": 0.055501}, {"month": "2011-09-01", "gross_gbp": 1058590.17, "orders": 1837, "buyers": 1266, "identified_orders": 1755, "identified_gross_gbp": 952838.38, "aov_gbp": 576.26, "mom": 0.394463}, {"month": "2011-10-01", "gross_gbp": 1154979.3, "orders": 2040, "buyers": 1364, "identified_orders": 1929, "identified_gross_gbp": 1039318.79, "aov_gbp": 566.17, "mom": 0.091054}, {"month": "2011-11-01", "gross_gbp": 1509496.33, "orders": 2769, "buyers": 1664, "identified_orders": 2657, "identified_gross_gbp": 1161817.38, "aov_gbp": 545.14, "mom": 0.306947}], "retention": [{"cohort": "2010-12-01", "month": "2010-12-01", "age": 0, "size": 885, "active_buyers": 885, "rate": 1.0}, {"cohort": "2010-12-01", "month": "2011-01-01", "age": 1, "size": 885, "active_buyers": 324, "rate": 0.366102}, {"cohort": "2010-12-01", "month": "2011-02-01", "age": 2, "size": 885, "active_buyers": 286, "rate": 0.323164}, {"cohort": "2010-12-01", "month": "2011-03-01", "age": 3, "size": 885, "active_buyers": 340, "rate": 0.384181}, {"cohort": "2010-12-01", "month": "2011-04-01", "age": 4, "size": 885, "active_buyers": 321, "rate": 0.362712}, {"cohort": "2010-12-01", "month": "2011-05-01", "age": 5, "size": 885, "active_buyers": 352, "rate": 0.39774}, {"cohort": "2010-12-01", "month": "2011-06-01", "age": 6, "size": 885, "active_buyers": 321, "rate": 0.362712}, {"cohort": "2010-12-01", "month": "2011-07-01", "age": 7, "size": 885, "active_buyers": 309, "rate": 0.349153}, {"cohort": "2010-12-01", "month": "2011-08-01", "age": 8, "size": 885, "active_buyers": 313, "rate": 0.353672}, {"cohort": "2010-12-01", "month": "2011-09-01", "age": 9, "size": 885, "active_buyers": 350, "rate": 0.39548}, {"cohort": "2010-12-01", "month": "2011-10-01", "age": 10, "size": 885, "active_buyers": 331, "rate": 0.374011}, {"cohort": "2010-12-01", "month": "2011-11-01", "age": 11, "size": 885, "active_buyers": 445, "rate": 0.502825}, {"cohort": "2011-01-01", "month": "2011-01-01", "age": 0, "size": 417, "active_buyers": 417, "rate": 1.0}, {"cohort": "2011-01-01", "month": "2011-02-01", "age": 1, "size": 417, "active_buyers": 92, "rate": 0.220624}, {"cohort": "2011-01-01", "month": "2011-03-01", "age": 2, "size": 417, "active_buyers": 111, "rate": 0.266187}, {"cohort": "2011-01-01", "month": "2011-04-01", "age": 3, "size": 417, "active_buyers": 96, "rate": 0.230216}, {"cohort": "2011-01-01", "month": "2011-05-01", "age": 4, "size": 417, "active_buyers": 134, "rate": 0.321343}, {"cohort": "2011-01-01", "month": "2011-06-01", "age": 5, "size": 417, "active_buyers": 120, "rate": 0.28777}, {"cohort": "2011-01-01", "month": "2011-07-01", "age": 6, "size": 417, "active_buyers": 103, "rate": 0.247002}, {"cohort": "2011-01-01", "month": "2011-08-01", "age": 7, "size": 417, "active_buyers": 101, "rate": 0.242206}, {"cohort": "2011-01-01", "month": "2011-09-01", "age": 8, "size": 417, "active_buyers": 125, "rate": 0.29976}, {"cohort": "2011-01-01", "month": "2011-10-01", "age": 9, "size": 417, "active_buyers": 136, "rate": 0.326139}, {"cohort": "2011-01-01", "month": "2011-11-01", "age": 10, "size": 417, "active_buyers": 152, "rate": 0.364508}, {"cohort": "2011-02-01", "month": "2011-02-01", "age": 0, "size": 380, "active_buyers": 380, "rate": 1.0}, {"cohort": "2011-02-01", "month": "2011-03-01", "age": 1, "size": 380, "active_buyers": 71, "rate": 0.186842}, {"cohort": "2011-02-01", "month": "2011-04-01", "age": 2, "size": 380, "active_buyers": 71, "rate": 0.186842}, {"cohort": "2011-02-01", "month": "2011-05-01", "age": 3, "size": 380, "active_buyers": 108, "rate": 0.284211}, {"cohort": "2011-02-01", "month": "2011-06-01", "age": 4, "size": 380, "active_buyers": 103, "rate": 0.271053}, {"cohort": "2011-02-01", "month": "2011-07-01", "age": 5, "size": 380, "active_buyers": 94, "rate": 0.247368}, {"cohort": "2011-02-01", "month": "2011-08-01", "age": 6, "size": 380, "active_buyers": 96, "rate": 0.252632}, {"cohort": "2011-02-01", "month": "2011-09-01", "age": 7, "size": 380, "active_buyers": 106, "rate": 0.278947}, {"cohort": "2011-02-01", "month": "2011-10-01", "age": 8, "size": 380, "active_buyers": 94, "rate": 0.247368}, {"cohort": "2011-02-01", "month": "2011-11-01", "age": 9, "size": 380, "active_buyers": 116, "rate": 0.305263}, {"cohort": "2011-03-01", "month": "2011-03-01", "age": 0, "size": 452, "active_buyers": 452, "rate": 1.0}, {"cohort": "2011-03-01", "month": "2011-04-01", "age": 1, "size": 452, "active_buyers": 68, "rate": 0.150442}, {"cohort": "2011-03-01", "month": "2011-05-01", "age": 2, "size": 452, "active_buyers": 114, "rate": 0.252212}, {"cohort": "2011-03-01", "month": "2011-06-01", "age": 3, "size": 452, "active_buyers": 90, "rate": 0.199115}, {"cohort": "2011-03-01", "month": "2011-07-01", "age": 4, "size": 452, "active_buyers": 101, "rate": 0.223451}, {"cohort": "2011-03-01", "month": "2011-08-01", "age": 5, "size": 452, "active_buyers": 76, "rate": 0.168142}, {"cohort": "2011-03-01", "month": "2011-09-01", "age": 6, "size": 452, "active_buyers": 121, "rate": 0.267699}, {"cohort": "2011-03-01", "month": "2011-10-01", "age": 7, "size": 452, "active_buyers": 104, "rate": 0.230088}, {"cohort": "2011-03-01", "month": "2011-11-01", "age": 8, "size": 452, "active_buyers": 126, "rate": 0.278761}, {"cohort": "2011-04-01", "month": "2011-04-01", "age": 0, "size": 300, "active_buyers": 300, "rate": 1.0}, {"cohort": "2011-04-01", "month": "2011-05-01", "age": 1, "size": 300, "active_buyers": 64, "rate": 0.213333}, {"cohort": "2011-04-01", "month": "2011-06-01", "age": 2, "size": 300, "active_buyers": 61, "rate": 0.203333}, {"cohort": "2011-04-01", "month": "2011-07-01", "age": 3, "size": 300, "active_buyers": 63, "rate": 0.21}, {"cohort": "2011-04-01", "month": "2011-08-01", "age": 4, "size": 300, "active_buyers": 59, "rate": 0.196667}, {"cohort": "2011-04-01", "month": "2011-09-01", "age": 5, "size": 300, "active_buyers": 68, "rate": 0.226667}, {"cohort": "2011-04-01", "month": "2011-10-01", "age": 6, "size": 300, "active_buyers": 65, "rate": 0.216667}, {"cohort": "2011-04-01", "month": "2011-11-01", "age": 7, "size": 300, "active_buyers": 78, "rate": 0.26}, {"cohort": "2011-05-01", "month": "2011-05-01", "age": 0, "size": 284, "active_buyers": 284, "rate": 1.0}, {"cohort": "2011-05-01", "month": "2011-06-01", "age": 1, "size": 284, "active_buyers": 54, "rate": 0.190141}, {"cohort": "2011-05-01", "month": "2011-07-01", "age": 2, "size": 284, "active_buyers": 49, "rate": 0.172535}, {"cohort": "2011-05-01", "month": "2011-08-01", "age": 3, "size": 284, "active_buyers": 49, "rate": 0.172535}, {"cohort": "2011-05-01", "month": "2011-09-01", "age": 4, "size": 284, "active_buyers": 59, "rate": 0.207746}, {"cohort": "2011-05-01", "month": "2011-10-01", "age": 5, "size": 284, "active_buyers": 66, "rate": 0.232394}, {"cohort": "2011-05-01", "month": "2011-11-01", "age": 6, "size": 284, "active_buyers": 75, "rate": 0.264085}, {"cohort": "2011-06-01", "month": "2011-06-01", "age": 0, "size": 242, "active_buyers": 242, "rate": 1.0}, {"cohort": "2011-06-01", "month": "2011-07-01", "age": 1, "size": 242, "active_buyers": 42, "rate": 0.173554}, {"cohort": "2011-06-01", "month": "2011-08-01", "age": 2, "size": 242, "active_buyers": 38, "rate": 0.157025}, {"cohort": "2011-06-01", "month": "2011-09-01", "age": 3, "size": 242, "active_buyers": 64, "rate": 0.264463}, {"cohort": "2011-06-01", "month": "2011-10-01", "age": 4, "size": 242, "active_buyers": 56, "rate": 0.231405}, {"cohort": "2011-06-01", "month": "2011-11-01", "age": 5, "size": 242, "active_buyers": 81, "rate": 0.334711}, {"cohort": "2011-07-01", "month": "2011-07-01", "age": 0, "size": 188, "active_buyers": 188, "rate": 1.0}, {"cohort": "2011-07-01", "month": "2011-08-01", "age": 1, "size": 188, "active_buyers": 34, "rate": 0.180851}, {"cohort": "2011-07-01", "month": "2011-09-01", "age": 2, "size": 188, "active_buyers": 39, "rate": 0.207447}, {"cohort": "2011-07-01", "month": "2011-10-01", "age": 3, "size": 188, "active_buyers": 42, "rate": 0.223404}, {"cohort": "2011-07-01", "month": "2011-11-01", "age": 4, "size": 188, "active_buyers": 51, "rate": 0.271277}, {"cohort": "2011-08-01", "month": "2011-08-01", "age": 0, "size": 169, "active_buyers": 169, "rate": 1.0}, {"cohort": "2011-08-01", "month": "2011-09-01", "age": 1, "size": 169, "active_buyers": 35, "rate": 0.207101}, {"cohort": "2011-08-01", "month": "2011-10-01", "age": 2, "size": 169, "active_buyers": 42, "rate": 0.248521}, {"cohort": "2011-08-01", "month": "2011-11-01", "age": 3, "size": 169, "active_buyers": 41, "rate": 0.242604}, {"cohort": "2011-09-01", "month": "2011-09-01", "age": 0, "size": 299, "active_buyers": 299, "rate": 1.0}, {"cohort": "2011-09-01", "month": "2011-10-01", "age": 1, "size": 299, "active_buyers": 70, "rate": 0.234114}, {"cohort": "2011-09-01", "month": "2011-11-01", "age": 2, "size": 299, "active_buyers": 90, "rate": 0.301003}, {"cohort": "2011-10-01", "month": "2011-10-01", "age": 0, "size": 358, "active_buyers": 358, "rate": 1.0}, {"cohort": "2011-10-01", "month": "2011-11-01", "age": 1, "size": 358, "active_buyers": 86, "rate": 0.240223}, {"cohort": "2011-11-01", "month": "2011-11-01", "age": 0, "size": 323, "active_buyers": 323, "rate": 1.0}], "repeat_30d": [{"eligible_buyers": 3974, "repeat_buyers": 872, "rate": 0.219426}], "quality": {"raw_rows": 541909, "missing_customer_rows": 135080}, "financials": [{"year": 2021, "revenue_rmb_thousands": 4490651, "yoy": null}, {"year": 2022, "revenue_rmb_thousands": 4617324, "yoy": 0.028208159574190983}, {"year": 2023, "revenue_rmb_thousands": 6301002, "yoy": 0.36464367672703935}, {"year": 2024, "revenue_rmb_thousands": 13037749, "yoy": 1.0691548740978023}, {"year": 2025, "revenue_rmb_thousands": 37120052, "yoy": 1.8471212323538366}]}</script>
+<script>
+const data = JSON.parse(document.querySelector('#metrics').textContent);
+const byId = id => document.getElementById(id);
+const num = n => n.toLocaleString('en-GB', {maximumFractionDigits: 2});
+const pct = n => n === null ? '—' : (n * 100).toFixed(1) + '%';
+const gbp = n => n === null ? '—' : '£' + num(n);
+const cards = (id, items) => byId(id).innerHTML = items.map(([label, value]) =>
+  '<div class="card"><strong>' + value + '</strong>' + label + '</div>').join('');
+function bars(id, rows, format) {
+  const max = Math.max(1e-9, ...rows.map(([, value]) => Math.abs(value || 0)));
+  byId(id).innerHTML = rows.map(([label, value]) => '<div class="bar-row"><span>' + label +
+    '</span><span class="track" aria-hidden="true"><span class="fill" style="width:' +
+    (100 * Math.abs(value || 0) / max) + '%;background-color:' + (value < 0 ? '#a62742' : '') +
+    '"></span></span><span>' + format(value) + '</span></div>').join('');
+}
+function table(id, headers, rows) {
+  byId(id).innerHTML = '<table><thead><tr>' + headers.map(label => '<th scope="col">' + label +
+    '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+}
+const latest = data.financials[data.financials.length - 1];
+const rmb = n => '¥' + (n / 1000000).toFixed(2) + 'bn';
+cards('company-cards', [['FY2025 revenue', rmb(latest.revenue_rmb_thousands)], ['FY2025 YoY', '+' + pct(latest.yoy)]]);
+bars('company-bars', data.financials.map(row => [row.year, row.revenue_rmb_thousands]), rmb);
+const monthly = data.monthly;
+const sum = key => monthly.reduce((total, row) => total + row[key], 0);
+const repeat = data.repeat_30d[0];
+cards('retail-cards', [['Gross sales', gbp(sum('gross_gbp'))], ['Orders', num(sum('orders'))],
+  ['30-day repeat · ' + num(repeat.eligible_buyers) + ' eligible buyers', pct(repeat.rate)],
+  ['Orders with customer ID', pct(sum('identified_orders') / sum('orders'))]]);
+function drawRetail() {
+  const key = byId('metric').value;
+  bars('retail-bars', monthly.map(row => [row.month.slice(0, 7), row[key]]),
+    {gross_gbp: gbp, aov_gbp: gbp, orders: num, mom: pct}[key]);
+}
+byId('metric').addEventListener('change', drawRetail);
+drawRetail();
+table('monthly', ['Month', 'Gross sales', 'Orders', 'Identified buyers', 'AOV', 'MoM', 'Order ID coverage'],
+  monthly.map(row => '<tr><th scope="row">' + row.month.slice(0, 7) + '</th>' +
+    [gbp(row.gross_gbp), num(row.orders), num(row.buyers), gbp(row.aov_gbp), pct(row.mom),
+      pct(row.orders ? row.identified_orders / row.orders : null)].map(x => '<td>' + x + '</td>').join('') + '</tr>'));
+const groups = data.retention.filter(row => row.age === 0);
+const ages = Array.from({length: 12}, (_, i) => i);
+for (const row of groups) {
+  byId('cohort').add(new Option(row.cohort.slice(0, 7), row.cohort));
+}
+function drawHeatmap() {
+  const selected = byId('cohort').value;
+  table('heatmap', ['First purchase', 'Buyers', ...ages.map(age => 'M' + age)],
+    groups.filter(row => !selected || row.cohort === selected).map(row => {
+      const cells = ages.map(age => {
+        const cell = data.retention.find(item => item.cohort === row.cohort && item.age === age);
+        if (!cell) return '<td aria-label="Outside observation window">—</td>';
+        const lightness = 98 - 62 * cell.rate;
+        const color = cell.rate > .58 ? '#fff' : '#222329';
+        return '<td title="' + cell.active_buyers + ' / ' + cell.size + ' buyers" style="background:hsl(167 46% ' +
+          lightness + '%);color:' + color + '">' + pct(cell.rate) + '</td>';
+      });
+      return '<tr><th scope="row">' + row.cohort.slice(0, 7) + '</th><td>' + num(row.size) + '</td>' + cells.join('') + '</tr>';
+    }));
+}
+byId('cohort').addEventListener('change', drawHeatmap);
+drawHeatmap();
+</script>
+</body>
+</html>
