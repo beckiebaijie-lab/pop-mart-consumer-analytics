@@ -784,5 +784,19 @@
       "revenue_rmb_thousands": 37120052,
       "yoy": 1.8471212323538366
     }
+  ],
+  "membership": [
+    {
+      "year": 2024,
+      "registered_members_millions": 46.08,
+      "annual_member_repeat_rate": 0.494,
+      "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf"
+    },
+    {
+      "year": 2025,
+      "registered_members_millions": 72.58,
+      "annual_member_repeat_rate": 0.557,
+      "source": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf"
+    }
   ]
 }

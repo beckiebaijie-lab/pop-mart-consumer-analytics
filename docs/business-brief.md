@@ -1,13 +1,17 @@
 # Business brief · POP MART growth and measuring repeat purchase
 
 **Audience** · Ecommerce and product analytics leads  
-**Decision** · Establish session and order measurement before attributing growth to conversion or retention. Use the retail proxy to demonstrate the workflow and the proposed test to evaluate one retention lever.
+**Decision** · Establish session and order measurement before attributing growth to conversion or retention. Use the reported member repeat rate to frame the question, then use the proposed test to evaluate one retention lever.
 
 ## Company results
 
 POP MART FY2025 consolidated revenue reached **RMB 37.12bn**, versus **RMB 13.04bn** in FY2024, up **184.7%**. The observed result establishes the scale of growth across the group. The company revenue series cannot quantify the share attributable to increased traffic, checkout conversion, or repeat purchase. [HKEX audited annual results](https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0325/2026032500285.pdf)
 
-## Transaction analysis · UK retail proxy
+## Chinese mainland membership · company disclosures
+
+Annual member repeat purchase rose from **49.4% in FY2024 to 55.7% in FY2025**, a **6.3 percentage-point increase**. Registered membership rose from **46.08m to 72.58m**. The reported rate measures members purchasing at least twice within each reporting year. The filings do not provide an order-level panel or disclose an exact denominator count for reconstructing the repeat rate. Growth in aggregate repeat purchase does not identify whether individual acquisition cohorts improved. [FY2024 annual report](https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf) · [FY2025 annual report, p. 17](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18)
+
+## SQL appendix · historical UK retail proxy
 
 | Signal | Result | Interpretation |
 | --- | --- | --- |

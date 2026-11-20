@@ -27,13 +27,20 @@ details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
 <body><main>
 <header><span class="eyebrow">Independent portfolio case study</span>
 <h1>POP MART<br>Consumer Analytics</h1>
-<p>Reported company growth and a worked example of customer retention using a separate UK retailer’s transactions.</p></header>
-<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#retail">Retail proxy</a><a href="#cohorts">Cohorts</a></nav>
+<p>FY2024–FY2025 growth and member repeat purchasing, with a separate SQL cohort walkthrough.</p></header>
+<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#membership">Member repeat purchase</a><a href="#appendix">SQL appendix</a></nav>
 <section id="company">
 <span class="eyebrow">Company filings · RMB</span><h2>POP MART group revenue</h2>
 <p>Annual consolidated revenue, FY2021–FY2025. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf">HKEX annual report</a></p>
 <div class="cards" id="company-cards"></div><div class="bars" id="company-bars"></div>
 </section>
+<section id="membership">
+<span class="eyebrow">Company filings · Chinese mainland</span><h2>Annual member repeat purchase</h2>
+<p>POP MART reports the share of members who purchased at least twice during the reporting year. The filings provide aggregate rates, so customer cohorts and 30-day post-purchase outcomes cannot be reconstructed.</p>
+<div class="cards" id="member-cards"></div><div class="bars" id="member-bars"></div>
+<p>Registered membership at year-end and the repeat-rate population are different measures. <a href="https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf">FY2024 annual report</a> · <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18">FY2025 annual report</a></p>
+</section>
+<details id="appendix"><summary>SQL appendix · historical UCI retail example</summary>
 <section id="retail">
 <span class="eyebrow">UCI Online Retail · UK retailer · GBP</span><h2>Monthly trading and repeat purchase</h2>
 <p>December 2010–November 2011. Gross positive sales exclude cancellation lines and refunds. Monthly order totals include unidentified buyers.</p>
@@ -50,6 +57,7 @@ details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
 <label for="cohort">Cohort filter</label> <select id="cohort"><option value="">All cohorts</option></select>
 <div class="scroll" id="heatmap" aria-live="polite"></div>
 </section>
+</details>
 <footer>Proxy data adapted from Daqing Chen, Online Retail (2015), <a href="https://doi.org/10.24432/C5BW33">UCI Machine Learning Repository</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></footer>
 </main>
 <script id="metrics" type="application/json">__METRICS__</script>
@@ -76,6 +84,12 @@ const latest = data.financials[data.financials.length - 1];
 const rmb = n => '¥' + (n / 1000000).toFixed(2) + 'bn';
 cards('company-cards', [['FY2025 revenue', rmb(latest.revenue_rmb_thousands)], ['FY2025 YoY', '+' + pct(latest.yoy)]]);
 bars('company-bars', data.financials.map(row => [row.year, row.revenue_rmb_thousands]), rmb);
+const [priorMembers, latestMembers] = data.membership;
+const repeatChange = (latestMembers.annual_member_repeat_rate - priorMembers.annual_member_repeat_rate) * 100;
+cards('member-cards', [['FY2025 member repeat purchase', pct(latestMembers.annual_member_repeat_rate)],
+  ['Change vs FY2024', '+' + repeatChange.toFixed(1) + ' pp'],
+  ['FY2025 registered members', latestMembers.registered_members_millions.toFixed(2) + 'm']]);
+bars('member-bars', data.membership.map(row => [row.year, row.annual_member_repeat_rate]), pct);
 const monthly = data.monthly;
 const sum = key => monthly.reduce((total, row) => total + row[key], 0);
 const repeat = data.repeat_30d[0];

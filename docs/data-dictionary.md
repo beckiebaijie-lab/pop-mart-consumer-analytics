@@ -10,6 +10,19 @@ Source is POP MART International Group Limited, **Annual Report 2025**, printed 
 | revenue_rmb_thousands | Consolidated revenue in RMB thousands as reported |
 | yoy | Current-year revenue divided by prior-year revenue minus 1. Blank for the first year |
 
+## POP MART company membership disclosures
+
+`data/pop_mart_members.csv` records annual membership aggregates for Chinese mainland. Member repeat rates come from the relevant annual reports. The precise 46.08m FY2024 member count is the comparative figure in the FY2025 report. Only selected reported figures are transcribed. [FY2024 annual report](https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf) · [FY2025 annual report, p. 17](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18)
+
+| Field | Definition |
+| --- | --- |
+| year | Fiscal year ended December 31 |
+| registered_members_millions | Chinese mainland registered members at year end, in millions |
+| annual_member_repeat_rate | Company-reported share of members who purchased at least twice in the reporting year, expressed as a decimal |
+| source | Annual report for the rate |
+
+The year-end registered count is a separate stock measure. The disclosures do not give the underlying customer records or denominator count needed to reproduce the membership repeat rate.
+
 ## UCI Online Retail proxy
 
 Daqing Chen (2015), *Online Retail*, UCI Machine Learning Repository, DOI **10.24432/C5BW33**. The data covers a UK gift retailer with many wholesale customers. UCI lists **CC BY 4.0**. Adaptations here include filtering, invoice aggregation, and calculation of summary metrics. Raw invoices and customer IDs are downloaded locally for analysis and excluded from the repository. License applies to the UCI data and adapted UCI results. [Dataset](https://doi.org/10.24432/C5BW33) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

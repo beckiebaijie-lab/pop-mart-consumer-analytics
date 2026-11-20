@@ -80,6 +80,17 @@ def read_financials():
     return history
 
 
+def read_membership():
+    with (ROOT / "data/pop_mart_members.csv").open(newline="") as source:
+        return [
+            dict(year=int(row["year"]),
+                 registered_members_millions=float(row["registered_members_millions"]),
+                 annual_member_repeat_rate=float(row["annual_member_repeat_rate"]),
+                 source=row["source"])
+            for row in csv.DictReader(source)
+        ]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=ROOT / "data/raw/online_retail.zip")
@@ -103,6 +114,7 @@ def main():
     data = aggregate(db)
     data["quality"] = {"raw_rows": count, "missing_customer_rows": missing}
     data["financials"] = read_financials()
+    data["membership"] = read_membership()
     args.output.mkdir(parents=True, exist_ok=True)
     for metric in METRICS:
         rows = data[metric]

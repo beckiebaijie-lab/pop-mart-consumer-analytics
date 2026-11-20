@@ -1,6 +1,6 @@
 import unittest
 
-from analyze import aggregate, open_database, read_financials
+from analyze import aggregate, open_database, read_financials, read_membership
 
 
 class MetricsTest(unittest.TestCase):
@@ -43,6 +43,12 @@ class MetricsTest(unittest.TestCase):
         self.assertEqual(self.results["repeat_30d"], [
             {"eligible_buyers": 2, "repeat_buyers": 1, "rate": .5},
         ])
+
+    def test_membership_disclosures(self):
+        prior, latest = read_membership()
+        self.assertEqual((prior["year"], latest["year"]), (2024, 2025))
+        self.assertAlmostEqual(latest["annual_member_repeat_rate"] - prior["annual_member_repeat_rate"], .063)
+        self.assertEqual(latest["registered_members_millions"], 72.58)
 
     def test_financial_reconciliation(self):
         history = read_financials()

@@ -1,14 +1,14 @@
 # POP MART Product / Consumer Analytics
 
-An independent portfolio case study connecting publicly reported brand growth to a reproducible example of how an ecommerce team can measure repeat purchase.
+An independent portfolio case study on POP MART’s FY2024–FY2025 growth and Chinese mainland member repeat purchasing.
 
 | Evidence | Finding | Scope |
 | --- | --- | --- |
 | POP MART annual report | FY2025 consolidated revenue was RMB 37.12bn, up 184.7% YoY | Reported company financials |
-| UCI Online Retail | £10.03m in gross positive sales across 19,141 invoices | UK retailer, Dec 2010–Nov 2011 |
-| UCI Online Retail | 872 of 3,974 eligible buyers purchased again within 30 days (21.9%) | Identified buyers with a full follow-up window |
+| POP MART annual reports | Chinese mainland member repeat purchase rose from 49.4% to 55.7% (+6.3 pp) | Members who purchased at least twice in the reporting year |
+| POP MART annual reports | Chinese mainland registered membership reached 72.58m, up from 46.08m | Year-end registered member count |
 
-Purchase conversion and POP MART customer retention are unavailable from these sources. The UK retailer results illustrate the method and should be interpreted in that retailer’s context.
+The filings contain annual member repeat purchase, while session conversion, monthly cohort retention, and 30-day repeat require additional granular data. The dashboard’s SQL appendix uses historical UCI orders (2010–2011) to demonstrate those order-based methods independently.
 
 - **[Dashboard](docs/dashboard.html)** · Download and open the HTML file in a browser. It runs offline with embedded aggregate data.
 - **[Business brief](docs/business-brief.md)** · Findings, decisions, and a proposed experiment.
@@ -33,8 +33,8 @@ On Windows, activate with `.venv\Scripts\Activate.ps1`. Open `build/dashboard.ht
 ## Three-minute interview walkthrough
 
 1. **Business context (30s).** Show the audited FY2021–FY2025 revenue chart. Explain that consolidated revenue growth tells us how much the company grew, while diagnosing conversion or retention requires customer-level events.
-2. **Analytics choices (60s).** Switch the retail chart from gross sales to orders, then average order value. Compare October and November 2011. Show that November sales rose with invoice volume even as AOV declined.
-3. **Retention (60s).** Filter the heatmap to October 2011. Show 86 of 358 customers in M1 (24.0%). Explain that M1 is a calendar period, while the dashboard’s 21.9% uses an individual 30-day clock and a separate eligible denominator.
+2. **Member behavior (60s).** Show the rise from 49.4% to 55.7% in annual repeat purchase. Explain the reporting-year definition and why year-end registered membership is a separate metric.
+3. **Retention method (60s).** Open the historical SQL appendix and filter the heatmap to October 2011. Show 86 of 358 customers in M1 (24.0%). Explain that M1 is a calendar period, while the dashboard’s 21.9% uses an individual 30-day clock and a separate eligible denominator.
 4. **Product decision (30s).** Describe what session instrumentation and a randomized post-purchase test would let a brand team measure. See the [experiment proposal](docs/business-brief.md#proposed-experiment).
 
 The invoice model preserves anonymous sales in revenue and order totals, excludes those invoices from customer metrics, and keeps unobserved cohort cells blank. The test suite exercises those boundaries using a small independent fixture.
