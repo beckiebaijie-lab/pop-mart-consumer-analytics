@@ -80,6 +80,24 @@ def read_financials():
     return history
 
 
+def read_regions(financials):
+    totals = {row["year"]: row["revenue_rmb_thousands"] for row in financials}
+    group_growth = totals[2025] - totals[2024]
+    regions = []
+    with (ROOT / "data/pop_mart_regions.csv").open(newline="") as source:
+        for row in csv.DictReader(source):
+            prior = int(row["revenue_2024_rmb_thousands"])
+            current = int(row["revenue_2025_rmb_thousands"])
+            growth = current - prior
+            regions.append(dict(region=row["region"], prior=prior, current=current,
+                                growth=growth, yoy=growth / prior,
+                                growth_share=growth / group_growth))
+    if (sum(row["prior"] for row in regions) != totals[2024]
+            or sum(row["current"] for row in regions) != totals[2025]):
+        raise ValueError("Regional revenue does not reconcile to group revenue")
+    return regions
+
+
 def read_membership():
     with (ROOT / "data/pop_mart_members.csv").open(newline="") as source:
         return [
@@ -114,6 +132,7 @@ def main():
     data = aggregate(db)
     data["quality"] = {"raw_rows": count, "missing_customer_rows": missing}
     data["financials"] = read_financials()
+    data["regions"] = read_regions(data["financials"])
     data["membership"] = read_membership()
     args.output.mkdir(parents=True, exist_ok=True)
     for metric in METRICS:

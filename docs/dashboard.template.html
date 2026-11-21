@@ -17,6 +17,8 @@ section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .card{background:var(--paper);padding:16px;border-radius:9px;color:var(--muted);font-size:.88rem}
 .card strong{display:block;color:var(--ink);font-size:1.8rem;letter-spacing:-.04em}
 .bars{margin:20px 0}.bar-row{display:grid;grid-template-columns:64px 1fr 105px;gap:12px;align-items:center;margin:7px 0;font-variant-numeric:tabular-nums}
+#regional-bridge .bar-row{grid-template-columns:minmax(115px,160px) 1fr minmax(60px,90px)}
+#regional-bridge .delta{background:#236b64}
 .track{height:14px;background:#f1ede8;border-radius:4px;overflow:hidden}.fill{display:block;height:100%;background:var(--accent)}
 #retail-bars .fill{background:#236b64}.scroll{overflow:auto}table{border-collapse:collapse;font-size:.83rem;font-variant-numeric:tabular-nums;width:100%;white-space:nowrap}
 th,td{padding:8px;text-align:right;border-bottom:1px solid var(--line)}th:first-child{text-align:left}
@@ -28,11 +30,18 @@ details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
 <header><span class="eyebrow">Independent portfolio case study</span>
 <h1>POP MART<br>Consumer Analytics</h1>
 <p>FY2024–FY2025 growth and member repeat purchasing, with a separate SQL cohort walkthrough.</p></header>
-<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#membership">Member repeat purchase</a><a href="#appendix">SQL appendix</a></nav>
+<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#regions">Regional growth</a><a href="#membership">Member repeat purchase</a><a href="#appendix">SQL appendix</a></nav>
 <section id="company">
 <span class="eyebrow">Company filings · RMB</span><h2>POP MART group revenue</h2>
 <p>Annual consolidated revenue, FY2021–FY2025. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf">HKEX annual report</a></p>
 <div class="cards" id="company-cards"></div><div class="bars" id="company-bars"></div>
+</section>
+<section id="regions">
+<span class="eyebrow">Company filings · RMB</span><h2>Where FY2025 revenue growth came from</h2>
+<p>The bridge adds each reporting region’s revenue increase to the FY2024 group total. Each green bar starts at the previous cumulative amount. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=20">FY2025 annual report, p. 19</a></p>
+<div class="cards" id="region-cards"></div>
+<div class="bars" id="regional-bridge" role="group" aria-label="FY2024 to FY2025 regional revenue bridge"></div>
+<div class="scroll" id="regional-table"></div>
 </section>
 <section id="membership">
 <span class="eyebrow">Company filings · Chinese mainland</span><h2>Annual member repeat purchase</h2>
@@ -84,6 +93,31 @@ const latest = data.financials[data.financials.length - 1];
 const rmb = n => '¥' + (n / 1000000).toFixed(2) + 'bn';
 cards('company-cards', [['FY2025 revenue', rmb(latest.revenue_rmb_thousands)], ['FY2025 YoY', '+' + pct(latest.yoy)]]);
 bars('company-bars', data.financials.map(row => [row.year, row.revenue_rmb_thousands]), rmb);
+const previous = data.financials.find(row => row.year === 2024).revenue_rmb_thousands;
+const current = latest.revenue_rmb_thousands;
+const regional = data.regions;
+const biggest = regional.reduce((top, row) => row.growth > top.growth ? row : top);
+const fastest = regional.reduce((top, row) => row.yoy > top.yoy ? row : top);
+cards('region-cards', [['Group revenue increase', '+' + rmb(current - previous)],
+  [biggest.region + ' share of group growth', pct(biggest.growth_share)],
+  [fastest.region + ' YoY growth', '+' + pct(fastest.yoy)]]);
+let running = previous;
+const bridge = [['FY2024 group', 0, previous, false]];
+for (const row of regional) {
+  bridge.push([row.region, running, row.growth, true]);
+  running += row.growth;
+}
+bridge.push(['FY2025 group', 0, current, false]);
+byId('regional-bridge').innerHTML = bridge.map(([label, start, value, delta]) =>
+  '<div class="bar-row"><span>' + label + '</span><span class="track" aria-hidden="true">' +
+  '<span class="fill' + (delta ? ' delta' : '') + '" style="margin-left:' +
+  (100 * Math.min(start, start + value) / current) + '%;width:' +
+  (100 * Math.abs(value) / current) + '%"></span></span><span>' +
+  (delta && value > 0 ? '+' : '') + rmb(value) + '</span></div>').join('');
+table('regional-table', ['Reporting region', 'FY2024', 'FY2025', 'Increase', 'YoY', 'Share of growth'],
+  regional.map(row => '<tr><th scope="row">' + row.region + '</th>' +
+    [rmb(row.prior), rmb(row.current), rmb(row.growth), pct(row.yoy), pct(row.growth_share)]
+      .map(value => '<td>' + value + '</td>').join('') + '</tr>'));
 const [priorMembers, latestMembers] = data.membership;
 const repeatChange = (latestMembers.annual_member_repeat_rate - priorMembers.annual_member_repeat_rate) * 100;
 cards('member-cards', [['FY2025 member repeat purchase', pct(latestMembers.annual_member_repeat_rate)],

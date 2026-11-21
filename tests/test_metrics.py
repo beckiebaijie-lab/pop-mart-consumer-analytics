@@ -1,6 +1,6 @@
 import unittest
 
-from analyze import aggregate, open_database, read_financials, read_membership
+from analyze import aggregate, open_database, read_financials, read_membership, read_regions
 
 
 class MetricsTest(unittest.TestCase):
@@ -43,6 +43,13 @@ class MetricsTest(unittest.TestCase):
         self.assertEqual(self.results["repeat_30d"], [
             {"eligible_buyers": 2, "repeat_buyers": 1, "rate": .5},
         ])
+
+    def test_regional_growth_bridge(self):
+        regions = read_regions(read_financials())
+        self.assertEqual(sum(row["growth"] for row in regions), 24082303)
+        self.assertAlmostEqual(sum(row["growth_share"] for row in regions), 1)
+        self.assertEqual(max(regions, key=lambda row: row["growth"])["region"], "The PRC")
+        self.assertEqual(max(regions, key=lambda row: row["yoy"])["region"], "Americas")
 
     def test_membership_disclosures(self):
         prior, latest = read_membership()

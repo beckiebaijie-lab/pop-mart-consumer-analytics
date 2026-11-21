@@ -785,6 +785,40 @@
       "yoy": 1.8471212323538366
     }
   ],
+  "regions": [
+    {
+      "region": "The PRC",
+      "prior": 8886483,
+      "current": 20851717,
+      "growth": 11965234,
+      "yoy": 1.3464532594053238,
+      "growth_share": 0.49684758139618124
+    },
+    {
+      "region": "Asia Pacific",
+      "prior": 3109700,
+      "current": 8011027,
+      "growth": 4901327,
+      "yoy": 1.576141428433611,
+      "growth_share": 0.20352401512430102
+    },
+    {
+      "region": "Americas",
+      "prior": 802219,
+      "current": 6806189,
+      "growth": 6003970,
+      "yoy": 7.48420319139786,
+      "growth_share": 0.24931045838929938
+    },
+    {
+      "region": "Europe and other regions",
+      "prior": 239347,
+      "current": 1451119,
+      "growth": 1211772,
+      "yoy": 5.0628251033019005,
+      "growth_share": 0.05031794509021832
+    }
+  ],
   "membership": [
     {
       "year": 2024,
