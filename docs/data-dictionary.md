@@ -14,6 +14,10 @@ Source is POP MART International Group Limited, **Annual Report 2025**, printed 
 
 `data/pop_mart_regions.csv` transcribes FY2024 and FY2025 revenue in RMB thousands for the four reporting regions, using the comparative figures in the FY2025 report. The filing’s PRC region includes Chinese mainland, Hong Kong, Macao and Taiwan. Python checks that each year’s regional figures sum exactly to reported group revenue. In `metrics.json`, `prior` and `current` are the two annual figures, `growth` is their difference, `yoy` is growth divided by FY2024 regional revenue, and `growth_share` is growth divided by the group revenue increase. [FY2025 annual report, p. 19](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=20)
 
+## POP MART Americas channels
+
+`data/pop_mart_americas_channels.csv` records FY2024 and FY2025 channel revenue in RMB thousands. The `all` scope contains online, offline, and wholesale and other. The `online` scope breaks the online subtotal into the company app and website, TikTok, and other online channels. Python checks that both scopes reconcile to their parent totals for each year. In `metrics.json`, `growth` is FY2025 less FY2024, and `growth_share` divides that change by the parent’s increase. [FY2025 annual report, p. 24](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=25)
+
 ## POP MART company membership disclosures
 
 `data/pop_mart_members.csv` records annual membership aggregates for Chinese mainland. Member repeat rates come from the relevant annual reports. The precise 46.08m FY2024 member count is the comparative figure in the FY2025 report. Only selected reported figures are transcribed. [FY2024 annual report](https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf) · [FY2025 annual report, p. 17](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18)

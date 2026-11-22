@@ -98,6 +98,27 @@ def read_regions(financials):
     return regions
 
 
+def read_americas_channels(regions):
+    americas = next(row for row in regions if row["region"] == "Americas")
+    breakdowns = {"all": [], "online": []}
+    with (ROOT / "data/pop_mart_americas_channels.csv").open(newline="") as source:
+        for row in csv.DictReader(source):
+            prior = int(row["revenue_2024_rmb_thousands"])
+            current = int(row["revenue_2025_rmb_thousands"])
+            breakdowns[row["scope"]].append(dict(channel=row["channel"], prior=prior,
+                                                 current=current, growth=current - prior))
+
+    online = next(row for row in breakdowns["all"] if row["channel"] == "Online")
+    for scope, total in (("all", americas), ("online", online)):
+        rows = breakdowns[scope]
+        if any(sum(row[period] for row in rows) != total[period]
+               for period in ("prior", "current")):
+            raise ValueError(f"Americas channel revenue does not reconcile for {scope}")
+        for row in rows:
+            row["growth_share"] = row["growth"] / total["growth"]
+    return breakdowns
+
+
 def read_membership():
     with (ROOT / "data/pop_mart_members.csv").open(newline="") as source:
         return [
@@ -133,6 +154,7 @@ def main():
     data["quality"] = {"raw_rows": count, "missing_customer_rows": missing}
     data["financials"] = read_financials()
     data["regions"] = read_regions(data["financials"])
+    data["americas_channels"] = read_americas_channels(data["regions"])
     data["membership"] = read_membership()
     args.output.mkdir(parents=True, exist_ok=True)
     for metric in METRICS:

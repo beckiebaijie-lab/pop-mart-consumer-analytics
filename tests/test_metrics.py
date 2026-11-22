@@ -1,6 +1,8 @@
 import unittest
 
-from analyze import aggregate, open_database, read_financials, read_membership, read_regions
+from analyze import (
+    aggregate, open_database, read_americas_channels, read_financials, read_membership, read_regions,
+)
 
 
 class MetricsTest(unittest.TestCase):
@@ -50,6 +52,16 @@ class MetricsTest(unittest.TestCase):
         self.assertAlmostEqual(sum(row["growth_share"] for row in regions), 1)
         self.assertEqual(max(regions, key=lambda row: row["growth"])["region"], "The PRC")
         self.assertEqual(max(regions, key=lambda row: row["yoy"])["region"], "Americas")
+
+    def test_americas_channel_growth(self):
+        channels = read_americas_channels(read_regions(read_financials()))
+        online = next(row for row in channels["all"] if row["channel"] == "Online")
+        owned = next(row for row in channels["online"] if row["channel"] == "Company app and website")
+        self.assertEqual(sum(row["growth"] for row in channels["all"]), 6003970)
+        self.assertEqual(online["growth"], 3989236)
+        self.assertEqual(owned["growth"], 2678091)
+        self.assertAlmostEqual(online["growth_share"], .664, places=3)
+        self.assertAlmostEqual(owned["growth_share"], .671, places=3)
 
     def test_membership_disclosures(self):
         prior, latest = read_membership()

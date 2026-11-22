@@ -819,6 +819,54 @@
       "growth_share": 0.05031794509021832
     }
   ],
+  "americas_channels": {
+    "all": [
+      {
+        "channel": "Online",
+        "prior": 364345,
+        "current": 4353581,
+        "growth": 3989236,
+        "growth_share": 0.6644330334761832
+      },
+      {
+        "channel": "Offline",
+        "prior": 379581,
+        "current": 2235529,
+        "growth": 1855948,
+        "growth_share": 0.3091201321792081
+      },
+      {
+        "channel": "Wholesale and other",
+        "prior": 58293,
+        "current": 217079,
+        "growth": 158786,
+        "growth_share": 0.02644683434460865
+      }
+    ],
+    "online": [
+      {
+        "channel": "Company app and website",
+        "prior": 191925,
+        "current": 2870016,
+        "growth": 2678091,
+        "growth_share": 0.6713292971386
+      },
+      {
+        "channel": "TikTok",
+        "prior": 107662,
+        "current": 1039919,
+        "growth": 932257,
+        "growth_share": 0.23369311818102514
+      },
+      {
+        "channel": "Other online channels",
+        "prior": 64758,
+        "current": 443646,
+        "growth": 378888,
+        "growth_share": 0.09497758468037489
+      }
+    ]
+  },
   "membership": [
     {
       "year": 2024,
