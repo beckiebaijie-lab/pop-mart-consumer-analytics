@@ -42,3 +42,17 @@ Test whether an opt-in reminder for an in-stock collection increases 30-day seco
 Analyze by original assignment. Primary metric is the share of assigned eligible buyers placing a second paid order within 30 days. Monitor unsubscribes, refund rate, and contribution margin per assigned buyer. Predefine guardrail thresholds, check assignment balance, and wait until every enrolled customer has 30 days of follow-up before a fixed-horizon readout.
 
 For planning only, a 20% control rate and +2 percentage point minimum detectable lift imply approximately **6,510 buyers per arm** at 80% power and two-sided 5% significance (normal approximation, before adjustments). Size the actual test against the brand’s measured baseline and volume. Report absolute lift and its 95% confidence interval. The experiment is a proposal with no measured treatment effect.
+
+### Experiment decision table
+
+Use the owned app and website as the proposed enrollment channels. Before launch, agree on the minimum commercially worthwhile lift and acceptable limits for unsubscribes, refunds, and margin loss. For illustration, the table uses a **+2 percentage point** target. Report absolute lift and its 95% confidence interval by original assignment.
+
+| Readout | Decision |
+| --- | --- |
+| Follow-up is incomplete, or assignment or event logging fails validation | Hold the decision. Complete follow-up or investigate the data issue before interpreting the result. |
+| A predefined safety stop is triggered during the test, or a guardrail fails at the final readout | Stop or hold rollout and investigate the affected metric. Review refunds, unsubscribes, and margin per assigned buyer. |
+| All guardrails pass, estimated lift is at least +2 pp, and the 95% interval excludes zero on the positive side | Start a staged rollout and continue monitoring the same guardrails. |
+| The upper confidence limit is below +2 pp | Keep the current experience. The result rules out the illustrative target at the stated confidence level. |
+| The evidence is inconclusive after the planned readout and a worthwhile lift remains plausible | Hold rollout. Plan a separate, adequately powered follow-up if the business case justifies it. |
+
+A positive result under the rollout rule supports a staged release. It does not establish that the true lift is at least +2 pp unless the interval’s lower limit also reaches that threshold.
