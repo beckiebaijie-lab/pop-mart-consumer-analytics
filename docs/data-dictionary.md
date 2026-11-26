@@ -18,6 +18,12 @@ Source is POP MART International Group Limited, **Annual Report 2025**, printed 
 
 `data/pop_mart_americas_channels.csv` records FY2024 and FY2025 channel revenue in RMB thousands. The `all` scope contains online, offline, and wholesale and other. The `online` scope breaks the online subtotal into the company app and website, TikTok, and other online channels. Python checks that both scopes reconcile to their parent totals for each year. In `metrics.json`, `growth` is FY2025 less FY2024, and `growth_share` divides that change by the parent’s increase. [FY2025 annual report, p. 24](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=25)
 
+## POP MART IP revenue mix
+
+`data/pop_mart_ip_revenue.csv` contains FY2024 and FY2025 revenue in RMB thousands for the mutually exclusive rows of the annual report’s IP breakdown. Named artist IPs sit alongside aggregate rows for other artist IPs, licensed IPs, and external procurement and others. The subtotals for artist IPs and proprietary products are excluded to avoid double counting. Each year reconciles to consolidated revenue. [FY2025 annual report, p. 27](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=28)
+
+In `metrics.json`, `prior_share` and `current_share` divide category revenue by group revenue in the same year. `growth_share` divides the category’s revenue increase by the group’s increase. `other_business_yoy` compares the two annual group totals after subtracting THE MONSTERS in each year.
+
 ## POP MART company membership disclosures
 
 `data/pop_mart_members.csv` records annual membership aggregates for Chinese mainland. Member repeat rates come from the relevant annual reports. The precise 46.08m FY2024 member count is the comparative figure in the FY2025 report. Only selected reported figures are transcribed. [FY2024 annual report](https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf) · [FY2025 annual report, p. 17](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18)

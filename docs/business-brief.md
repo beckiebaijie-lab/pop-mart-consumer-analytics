@@ -15,6 +15,12 @@ The group added **RMB 24.08bn** in annual revenue. The PRC contributed **RMB 11.
 
 Online channels added **RMB 3.99bn (66.4% of Americas growth)**, offline added **RMB 1.86bn (30.9%)**, and wholesale and other added **RMB 0.16bn (2.6%)**. The company app and website contributed **RMB 2.68bn (67.1% of online growth)**, followed by TikTok at **RMB 0.93bn** and other online channels at **RMB 0.38bn**. Channel revenue makes the owned online channel a candidate for the retention test below. Traffic, conversion, and average order value data are needed to explain the revenue increase. [FY2025 annual report, pp. 24–25](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=25)
 
+## IP revenue mix
+
+THE MONSTERS added **RMB 11.12bn**, or **46.2%** of the group's FY2025 revenue increase. Its share of group revenue rose from **23.3% to 38.1%**. Excluding THE MONSTERS, revenue still increased **129.7% YoY**, from RMB 10.00bn to RMB 22.96bn. Among named IPs, SKULLPANDA added **RMB 2.23bn** and Twinkle Twinkle added **RMB 1.93bn**, making them candidates for a closer look at repeat demand. [FY2025 annual report, p. 27](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=28)
+
+I would track 30-day repeat purchase by first-purchased IP and use order-level data to separate same-IP second purchases from cross-IP purchases. The annual revenue table cannot answer either question on its own.
+
 ## Chinese mainland membership · company disclosures
 
 Annual member repeat purchase rose from **49.4% in FY2024 to 55.7% in FY2025**, a **6.3 percentage-point increase**. Registered membership rose from **46.08m to 72.58m**. The reported rate measures members purchasing at least twice within each reporting year. The filings do not provide an order-level panel or disclose an exact denominator count for reconstructing the repeat rate. Growth in aggregate repeat purchase does not identify whether individual acquisition cohorts improved. [FY2024 annual report](https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0423/2025042300687.pdf) · [FY2025 annual report, p. 17](https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=18)

@@ -1,7 +1,8 @@
 import unittest
 
 from analyze import (
-    aggregate, open_database, read_americas_channels, read_financials, read_membership, read_regions,
+    aggregate, open_database, read_americas_channels, read_financials, read_ip_revenue,
+    read_membership, read_regions,
 )
 
 
@@ -62,6 +63,15 @@ class MetricsTest(unittest.TestCase):
         self.assertEqual(owned["growth"], 2678091)
         self.assertAlmostEqual(online["growth_share"], .664, places=3)
         self.assertAlmostEqual(owned["growth_share"], .671, places=3)
+
+    def test_ip_revenue_concentration(self):
+        mix = read_ip_revenue(read_financials())
+        monsters = next(row for row in mix["rows"] if row["ip"] == "THE MONSTERS")
+        self.assertEqual(sum(row["growth"] for row in mix["rows"]), 24082303)
+        self.assertEqual(monsters["growth"], 11120400)
+        self.assertAlmostEqual(sum(row["growth_share"] for row in mix["rows"]), 1)
+        self.assertAlmostEqual(monsters["growth_share"], .462, places=3)
+        self.assertAlmostEqual(mix["other_business_yoy"], 1.297, places=3)
 
     def test_membership_disclosures(self):
         prior, latest = read_membership()

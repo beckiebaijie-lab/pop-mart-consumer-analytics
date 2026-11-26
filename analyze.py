@@ -119,6 +119,28 @@ def read_americas_channels(regions):
     return breakdowns
 
 
+def read_ip_revenue(financials):
+    totals = {row["year"]: row["revenue_rmb_thousands"] for row in financials}
+    prior_total, current_total = totals[2024], totals[2025]
+    group_growth = current_total - prior_total
+    rows = []
+    with (ROOT / "data/pop_mart_ip_revenue.csv").open(newline="") as source:
+        for row in csv.DictReader(source):
+            prior = int(row["revenue_2024_rmb_thousands"])
+            current = int(row["revenue_2025_rmb_thousands"])
+            growth = current - prior
+            rows.append(dict(ip=row["ip"], prior=prior, current=current, growth=growth,
+                             prior_share=prior / prior_total, current_share=current / current_total,
+                             growth_share=growth / group_growth))
+    if (sum(row["prior"] for row in rows), sum(row["current"] for row in rows)) != (prior_total, current_total):
+        raise ValueError("IP revenue does not reconcile to group revenue")
+
+    monsters = next(row for row in rows if row["ip"] == "THE MONSTERS")
+    remaining_prior = prior_total - monsters["prior"]
+    remaining_current = current_total - monsters["current"]
+    return {"rows": rows, "other_business_yoy": (remaining_current - remaining_prior) / remaining_prior}
+
+
 def read_membership():
     with (ROOT / "data/pop_mart_members.csv").open(newline="") as source:
         return [
@@ -155,6 +177,7 @@ def main():
     data["financials"] = read_financials()
     data["regions"] = read_regions(data["financials"])
     data["americas_channels"] = read_americas_channels(data["regions"])
+    data["ip_revenue"] = read_ip_revenue(data["financials"])
     data["membership"] = read_membership()
     args.output.mkdir(parents=True, exist_ok=True)
     for metric in METRICS:

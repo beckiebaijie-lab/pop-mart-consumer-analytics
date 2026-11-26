@@ -7,12 +7,13 @@ An independent portfolio case study on POP MART’s FY2024–FY2025 growth and C
 | POP MART annual report | FY2025 consolidated revenue was RMB 37.12bn, up 184.7% YoY | Reported company financials |
 | POP MART annual report | The PRC contributed RMB 11.97bn, or 49.7% of group revenue growth. The Americas grew fastest (+748.4% YoY) | FY2024–FY2025 reporting regions |
 | POP MART annual report | Online channels supplied 66.4% of the Americas’ revenue increase | FY2024–FY2025 Americas channels |
+| POP MART annual report | THE MONSTERS accounted for 38.1% of FY2025 revenue and 46.2% of the group’s annual increase | FY2024–FY2025 IP revenue mix |
 | POP MART annual reports | Chinese mainland member repeat purchase rose from 49.4% to 55.7% (+6.3 pp) | Members who purchased at least twice in the reporting year |
 | POP MART annual reports | Chinese mainland registered membership reached 72.58m, up from 46.08m | Year-end registered member count |
 
 ## Explore the project
 
-- **[View live dashboard](https://beckiebaijie-lab.github.io/pop-mart-consumer-analytics/dashboard.html)** · Explore regional and channel growth and member repeat purchase in your browser.
+- **[View live dashboard](https://beckiebaijie-lab.github.io/pop-mart-consumer-analytics/dashboard.html)** · Explore growth by region, channel, and IP alongside member repeat purchase.
 - **[Download dashboard (HTML)](https://github.com/beckiebaijie-lab/pop-mart-consumer-analytics/raw/refs/heads/main/docs/dashboard.html?download=1)** · Open the downloaded file in a browser. It works offline.
 - **[Business brief](docs/business-brief.md)** · Findings and a proposed retention experiment.
 

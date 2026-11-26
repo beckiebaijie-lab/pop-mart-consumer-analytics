@@ -18,6 +18,10 @@ section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .card strong{display:block;color:var(--ink);font-size:1.8rem;letter-spacing:-.04em}
 .bars{margin:20px 0}.bar-row{display:grid;grid-template-columns:64px 1fr 105px;gap:12px;align-items:center;margin:7px 0;font-variant-numeric:tabular-nums}
 :is(#regional-bridge,#americas) .bar-row{grid-template-columns:minmax(115px,160px) 1fr minmax(60px,90px)}
+#ip-bars .bar-row{grid-template-columns:minmax(104px,180px) 1fr;margin:12px 0}
+.ip-pair{display:grid;gap:3px}.ip-pair .track{height:9px}
+.ip-prior{background:#236b64}.ip-legend span{display:inline-block;width:12px;height:12px;margin-right:5px;border-radius:2px}
+.ip-legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;color:var(--muted)}
 #regional-bridge .delta{background:#236b64}
 .track{height:14px;background:#f1ede8;border-radius:4px;overflow:hidden}.fill{display:block;height:100%;background:var(--accent)}
 #retail-bars .fill{background:#236b64}.scroll{overflow:auto}table{border-collapse:collapse;font-size:.83rem;font-variant-numeric:tabular-nums;width:100%;white-space:nowrap}
@@ -30,7 +34,7 @@ details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
 <header><span class="eyebrow">Independent portfolio case study</span>
 <h1>POP MART<br>Consumer Analytics</h1>
 <p>FY2024–FY2025 growth and member repeat purchasing, with a separate SQL cohort walkthrough.</p></header>
-<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#regions">Regional growth</a><a href="#americas">Americas channels</a><a href="#membership">Member repeat purchase</a><a href="#appendix">SQL appendix</a></nav>
+<nav aria-label="Dashboard sections"><a href="#company">Company financials</a><a href="#regions">Regional growth</a><a href="#americas">Americas channels</a><a href="#ip">IP revenue mix</a><a href="#membership">Member repeat purchase</a><a href="#appendix">SQL appendix</a></nav>
 <section id="company">
 <span class="eyebrow">Company filings · RMB</span><h2>POP MART group revenue</h2>
 <p>Annual consolidated revenue, FY2021–FY2025. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf">HKEX annual report</a></p>
@@ -56,6 +60,19 @@ details{margin-top:12px}summary{cursor:pointer}footer{color:var(--muted)}
 <div class="bars" id="channel-bars"></div>
 <div class="scroll" id="channel-table"></div>
 </div>
+</section>
+<section id="ip">
+<span class="eyebrow">Company filings · RMB</span><h2>How concentrated was FY2025 growth by IP?</h2>
+<p>The chart compares named IPs and the remaining categories reported by POP MART. The table shows exact comparisons at the displayed precision. <a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0421/2026042100395_c.pdf#page=28">FY2025 annual report, p. 27</a></p>
+<div class="cards" id="ip-cards"></div>
+<label for="ip-sort">Sort by</label>
+<select id="ip-sort">
+<option value="current">FY2025 revenue</option>
+<option value="growth">Absolute revenue increase</option>
+</select>
+<div class="ip-legend"><div><span class="ip-prior"></span>FY2024</div><div><span class="fill" style="display:inline-block"></span>FY2025</div></div>
+<div class="bars" id="ip-bars" aria-hidden="true"></div>
+<div class="scroll" id="ip-table" aria-live="polite"></div>
 </section>
 <section id="membership">
 <span class="eyebrow">Company filings · Chinese mainland</span><h2>Annual member repeat purchase</h2>
@@ -148,6 +165,29 @@ function drawChannels() {
 }
 byId('channel-scope').addEventListener('change', drawChannels);
 drawChannels();
+const ipRevenue = data.ip_revenue;
+const monsters = ipRevenue.rows.find(row => row.ip === 'THE MONSTERS');
+cards('ip-cards', [
+  ['THE MONSTERS share of group revenue', pct(monsters.prior_share) + ' → ' + pct(monsters.current_share)],
+  ['THE MONSTERS share of group growth', pct(monsters.growth_share)],
+  ['Rest of the business YoY', '+' + pct(ipRevenue.other_business_yoy)]
+]);
+const ipMax = Math.max(...ipRevenue.rows.flatMap(row => [row.prior, row.current]));
+function drawIpRevenue() {
+  const key = byId('ip-sort').value;
+  const rows = [...ipRevenue.rows].sort((a, b) => b[key] - a[key]);
+  byId('ip-bars').innerHTML = rows.map(row =>
+    '<div class="bar-row"><span>' + row.ip + '</span><div class="ip-pair">' +
+    '<span class="track"><span class="fill ip-prior" style="width:' + 100 * row.prior / ipMax + '%"></span></span>' +
+    '<span class="track"><span class="fill" style="width:' + 100 * row.current / ipMax + '%"></span></span>' +
+    '</div></div>').join('');
+  table('ip-table', ['IP or reporting category', 'FY2024', 'FY2025', 'Increase', 'Share of group growth'],
+    rows.map(row => '<tr><th scope="row">' + row.ip + '</th>' +
+      [rmb(row.prior), rmb(row.current), rmb(row.growth), pct(row.growth_share)]
+        .map(value => '<td>' + value + '</td>').join('') + '</tr>'));
+}
+byId('ip-sort').addEventListener('change', drawIpRevenue);
+drawIpRevenue();
 const [priorMembers, latestMembers] = data.membership;
 const repeatChange = (latestMembers.annual_member_repeat_rate - priorMembers.annual_member_repeat_rate) * 100;
 cards('member-cards', [['FY2025 member repeat purchase', pct(latestMembers.annual_member_repeat_rate)],

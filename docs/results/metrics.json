@@ -867,6 +867,110 @@
       }
     ]
   },
+  "ip_revenue": {
+    "rows": [
+      {
+        "ip": "THE MONSTERS",
+        "prior": 3040664,
+        "current": 14161064,
+        "growth": 11120400,
+        "prior_share": 0.2332200136695376,
+        "current_share": 0.3814936466145037,
+        "growth_share": 0.461766468099002
+      },
+      {
+        "ip": "SKULLPANDA",
+        "prior": 1308262,
+        "current": 3539542,
+        "growth": 2231280,
+        "prior_share": 0.10034416217093917,
+        "current_share": 0.0953539073706039,
+        "growth_share": 0.09265226834825556
+      },
+      {
+        "ip": "CRYBABY",
+        "prior": 1164885,
+        "current": 2929006,
+        "growth": 1764121,
+        "prior_share": 0.08934709511588235,
+        "current_share": 0.07890630110108682,
+        "growth_share": 0.07325383290792413
+      },
+      {
+        "ip": "MOLLY",
+        "prior": 2093172,
+        "current": 2897084,
+        "growth": 803912,
+        "prior_share": 0.16054703921666233,
+        "current_share": 0.07804633463336744,
+        "growth_share": 0.033381857208590056
+      },
+      {
+        "ip": "DIMOO",
+        "prior": 909561,
+        "current": 2776695,
+        "growth": 1867134,
+        "prior_share": 0.06976365321958568,
+        "current_share": 0.07480310103013864,
+        "growth_share": 0.07753137231102857
+      },
+      {
+        "ip": "Twinkle Twinkle",
+        "prior": 120788,
+        "current": 2055580,
+        "growth": 1934792,
+        "prior_share": 0.009264482695594154,
+        "current_share": 0.055376538804417626,
+        "growth_share": 0.08034082122461461
+      },
+      {
+        "ip": "HIRONO",
+        "prior": 726525,
+        "current": 1735235,
+        "growth": 1008710,
+        "prior_share": 0.05572472671471126,
+        "current_share": 0.0467465670576108,
+        "growth_share": 0.04188594421389018
+      },
+      {
+        "ip": "HACIPUPU",
+        "prior": 224288,
+        "current": 848021,
+        "growth": 623733,
+        "prior_share": 0.017202969623053795,
+        "current_share": 0.022845361315765398,
+        "growth_share": 0.0259000561532674
+      },
+      {
+        "ip": "Other artist IPs",
+        "prior": 1532703,
+        "current": 2464023,
+        "growth": 931320,
+        "prior_share": 0.11755886694858138,
+        "current_share": 0.0663798369679008,
+        "growth_share": 0.038672381125675566
+      },
+      {
+        "ip": "Licensed IPs",
+        "prior": 1600658,
+        "current": 3381994,
+        "growth": 1781336,
+        "prior_share": 0.12277103969404535,
+        "current_share": 0.0911096245231553,
+        "growth_share": 0.07396867317880686
+      },
+      {
+        "ip": "External procurement and others",
+        "prior": 316243,
+        "current": 331808,
+        "growth": 15565,
+        "prior_share": 0.024255950931406946,
+        "current_share": 0.008938780581449616,
+        "growth_share": 0.0006463252289450888
+      }
+    ],
+    "other_business_yoy": 1.2965682496447715
+  },
   "membership": [
     {
       "year": 2024,
